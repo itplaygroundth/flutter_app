@@ -1,34 +1,31 @@
-import 'package:firstapp/screens/bottom_bar.dart';
-// import 'package:firstapp/screens/home.dart';
+import 'package:firstapp/screens/home.dart';
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:flutter_graphql/flutter_graphql.dart';
+
+import 'utils/app_styles.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
+
+final httpLink = HttpLink(uri: "http://127.0.0.1:4000/");
+
+ValueNotifier<GraphQLClient> client =
+    ValueNotifier(GraphQLClient(cache: InMemoryCache(), link: httpLink));
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
-          primarySwatch: Colors.blue,
-        ),
-        home:
-            const BottomBar() //const MyHomePage(title: 'Flutter Demo Home Page'),
-        );
+    return GraphQLProvider(
+      client: client,
+      child: MaterialApp(
+        title: 'My GraphQL Demo',
+        theme: ThemeData(primaryColor: Styles.primaryColor),
+        home: MyHomePage(),
+      ),
+    );
   }
 }

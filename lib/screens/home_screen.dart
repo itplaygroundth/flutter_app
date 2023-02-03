@@ -1,8 +1,11 @@
+import 'package:firstapp/screens/phone_screent.dart';
 import 'package:firstapp/screens/ticket_view.dart';
 import 'package:firstapp/utils/app_styles.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+
+import '../utils/app_info_list.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -82,7 +85,41 @@ class HomeScreen extends StatelessWidget {
               ]),
             ),
             const Gap(15),
-            TicketView()
+            SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.only(left: 20),
+                child: Row(children: [TicketView(), TicketView()])),
+            const Gap(15),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Phones",
+                    style: Styles.headLineStyle2,
+                  ),
+                  InkWell(
+                      onTap: () {
+                        // ignore: avoid_print
+                        print("Show All");
+                      },
+                      child: Text(
+                        "View All",
+                        style: Styles.textStyle
+                            .copyWith(color: Styles.primaryColor),
+                      ))
+                ],
+              ),
+            ),
+            const Gap(15),
+            SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.only(left: 20),
+                child: Row(
+                    children: phoneList
+                        .map((singlePhone) => PhoneScreen(phone: singlePhone))
+                        .toList())),
           ],
         ));
   }
